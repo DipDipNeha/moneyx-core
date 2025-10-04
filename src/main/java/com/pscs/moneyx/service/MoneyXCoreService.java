@@ -17,6 +17,7 @@ import com.pscs.moneyx.repo.ContactsUsRepo;
 import com.pscs.moneyx.repo.CustomerDocInfoRepo;
 import com.pscs.moneyx.repo.MoneyXCoreCustomerRepo;
 import com.pscs.moneyx.service.post.EmailAndSMSPostingService;
+import com.pscs.moneyx.utils.CommonUtils;
 
 @Service
 public class MoneyXCoreService {
@@ -48,7 +49,9 @@ public class MoneyXCoreService {
 			String email = jbody.getString("email");
 			String password = jbody.getString("password");
 
-			MoneyXCoreCustomer byEmailAndPassword = moneyXCoreCustomerRepo.findByEmailAndPassword(email, password);
+			MoneyXCoreCustomer byEmailAndPassword = moneyXCoreCustomerRepo.findByEmailAndPassword(email,
+					CommonUtils.b64_sha256(password)
+					);
 
 			if (byEmailAndPassword == null) {
 				response.setResponseCode(CoreConstant.FAILURE_CODE);
