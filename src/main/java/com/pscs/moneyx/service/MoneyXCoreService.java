@@ -4,6 +4,9 @@
 
 package com.pscs.moneyx.service;
 
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +49,7 @@ public class MoneyXCoreService {
 		try {
 			JSONObject resjson = new JSONObject();
 			String jsonString = ConvertRequestUtils.getJsonString(requestData);
-
+			
 			JSONObject requestJson = new JSONObject(jsonString);
 
 			System.out.println("Request Body: " + requestJson.toString());
@@ -102,7 +105,7 @@ public class MoneyXCoreService {
 			mobCustomerDocInfo.setDescription(jbody.getString("description"));
 			mobCustomerDocInfo.setBlog(jbody.getString("blog"));
 			mobCustomerDocInfo.setBlogCategory(jbody.getString("blogCategory"));
-			mobCustomerDocInfo.setCreatedBy(jheader.getString("userId"));
+			mobCustomerDocInfo.setCreatedBy(jheader.getString("userid"));
 			mobCustomerDocInfo.setCreatedDttm(new java.util.Date());
 			mobCustomerDocInfo.setFileData(ConvertRequestUtils.stringToClob(jbody.getString("fileData")));
 			CustomerDocInfo saveresponse = customerDocInfoRepo.save(mobCustomerDocInfo);
@@ -280,8 +283,8 @@ public class MoneyXCoreService {
 			System.out.println("Request Body: " + requestJson.toString());
 
 			String otp = requestJson.getString("authValue");
-			String username = requestJson.getString("userid");
-			String mobileNumber = requestJson.getString("mobileNumber");
+			String username = requestJson.getString("email");
+			String mobileNumber = requestJson.getString("phoneNumber");
 
 			OtpDataTabl otpDataTabl = otpDataTablRepo.findByUserIdAndOtp(username, CommonUtils.b64_sha256(otp));
 
@@ -330,7 +333,7 @@ public class MoneyXCoreService {
 		return response;
 	}
 
-	public ResponseData viewImage(RequestData requestData) {
+	public ResponseData viewblogs(RequestData requestData) {
 		ResponseData response = new ResponseData();
 		try {
 			JSONObject resjson = new JSONObject();
@@ -340,27 +343,15 @@ public class MoneyXCoreService {
 
 			System.out.println("Request Body: " + requestJson.toString());
 			JSONObject jbody = requestJson.getJSONObject("jbody");
-			Long id = jbody.getLong("id");
-			CustomerDocInfo mobCustomerDocInfo = customerDocInfoRepo.findById(id).orElse(null);
-			if (mobCustomerDocInfo == null) {
-				response.setResponseCode(CoreConstant.FAILURE_CODE);
-				response.setResponseMessage(CoreConstant.FAILED + " to view image");
-				return response;
-			} else {
-				resjson.put("id", mobCustomerDocInfo.getId());
-				resjson.put("documentType", mobCustomerDocInfo.getDocumentType());
-				resjson.put("description", mobCustomerDocInfo.getDescription());
-				resjson.put("blog", mobCustomerDocInfo.getBlog());
-				resjson.put("blogCategory", mobCustomerDocInfo.getBlogCategory());
-				resjson.put("fileData", ConvertRequestUtils.clobToString(mobCustomerDocInfo.getFileData()));
-				resjson.put("createdBy", mobCustomerDocInfo.getCreatedBy());
-				resjson.put("createdDttm", mobCustomerDocInfo.getCreatedDttm());
-				resjson.put("updatedDttm", mobCustomerDocInfo.getUpdatedDttm());
-
+			
+			List<CustomerDocInfo> all = customerDocInfoRepo.findAll();
+			JSONArray jsonArray = new JSONArray(all);
+			
+			
 				response.setResponseCode(CoreConstant.SUCCESS_CODE);
 				response.setResponseMessage(CoreConstant.SUCCESS);
-				response.setResponseData(resjson.toMap());
-			}
+				response.setResponseData(jsonArray.toList());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setResponseCode(CoreConstant.FAILURE_CODE);
@@ -368,7 +359,7 @@ public class MoneyXCoreService {
 			return response;
 		}
 
-		return null;
+		return response;
 	}
 
 	public ResponseData contactsUs(RequestData requestData) {

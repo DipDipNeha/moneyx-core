@@ -65,13 +65,13 @@ public class CustomerImageUploadController {
 	}
 	
 	@PostMapping("/viewImage")
-	public ResponseData viewImage(RequestData requestData) {
+	public ResponseData viewImage(@RequestBody RequestData requestData) {
 		ResponseData response = new ResponseData();
-		response = moneyXCoreService.viewImage(requestData);
+		response = moneyXCoreService.viewblogs(requestData);
 		return response;
 	}
 	@PostMapping("/updateimage")
-	public ResponseData updateImage(RequestData requestData) {
+	public ResponseData updateImage(@RequestBody RequestData requestData) {
 		ResponseData response = new ResponseData();
 		response = moneyXCoreService.updateImage(requestData);
 		return response;
