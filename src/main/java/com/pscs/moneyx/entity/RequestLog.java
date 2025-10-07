@@ -10,11 +10,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * 
  */
-@Entity(name="Moneyx_core_request_log_tbl")
+@Entity
+@Table(name = "Moneyx_core_request_log_tbl")
 public class RequestLog {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

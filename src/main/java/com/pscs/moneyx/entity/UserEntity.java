@@ -12,10 +12,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
 
-@Entity(name = "USERS")
-//@Table(name = "USERS")
+@Entity
+@Table(name = "USERS")
 public class UserEntity {
 
 	@Id 
