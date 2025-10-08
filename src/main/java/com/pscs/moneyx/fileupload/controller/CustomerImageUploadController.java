@@ -77,5 +77,13 @@ public class CustomerImageUploadController {
 		return response;
 	}
 	
+	// get blog id
+	@PostMapping("/getblogid")
+	public ResponseData getBlogId(@RequestBody RequestData requestData) {
+		ResponseData response = new ResponseData();
+		response = moneyXCoreService.getBlogId(requestData);
+		return response;
+	}
+	
 
 }

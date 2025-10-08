@@ -466,4 +466,38 @@ public class MoneyXCoreService {
 	}
 		return response;
 	}
+
+	public ResponseData getBlogId(RequestData requestData) {
+		ResponseData response = new ResponseData();
+		try {
+			JSONObject resjson = new JSONObject();
+			String jsonString = ConvertRequestUtils.getJsonString(requestData);
+
+			JSONObject requestJson = new JSONObject(jsonString);
+
+			System.out.println("Request Body: " + requestJson.toString());
+			JSONObject jbody = requestJson.getJSONObject("jbody");
+			Long id = jbody.getLong("id");
+
+			CustomerDocInfo mobCustomerDocInfo = customerDocInfoRepo.findById(id).orElse(null);
+
+			if (mobCustomerDocInfo == null) {
+				response.setResponseCode(CoreConstant.FAILURE_CODE);
+				response.setResponseMessage(CoreConstant.FAILED + " to fetch blog details");
+				return response;
+			} else {
+
+				response.setResponseCode(CoreConstant.SUCCESS_CODE);
+				response.setResponseMessage(CoreConstant.SUCCESS);
+				response.setResponseData(mobCustomerDocInfo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setResponseCode(CoreConstant.FAILURE_CODE);
+			response.setResponseMessage(CoreConstant.FAILED + e.getMessage());
+			return response;
+		}
+		
+		return response;
+	}
 }
