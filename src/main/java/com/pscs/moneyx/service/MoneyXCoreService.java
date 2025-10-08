@@ -375,6 +375,7 @@ public class MoneyXCoreService {
 			contactsUs.setEmail(jbody.getString("email"));
 			contactsUs.setSubject(jbody.getString("subject"));
 			contactsUs.setMessage(jbody.getString("message"));
+			contactsUs.setPhone(jbody.getString("phone"));
 			contactsUs.setCreatedDttm(new java.util.Date());
 			com.pscs.moneyx.entity.ContactsUs saveresponse = contactsUsRepo.save(contactsUs);
 
@@ -401,6 +402,67 @@ public class MoneyXCoreService {
 			return response;
 
 		}
+		return response;
+	}
+
+	public ResponseData viewContactUsMessages(RequestData requestData) {
+	    ResponseData response = new ResponseData();
+		try {
+			JSONObject resjson = new JSONObject();
+			String jsonString = ConvertRequestUtils.getJsonString(requestData);
+			JSONObject requestJson = new JSONObject(jsonString);
+			System.out.println("Request Body: " + requestJson.toString());
+			JSONObject jbody = requestJson.getJSONObject("jbody");
+
+			List<com.pscs.moneyx.entity.ContactsUs> allMessages = contactsUsRepo.findAll();
+			JSONArray jsonArray = new JSONArray(allMessages);
+
+			response.setResponseCode(CoreConstant.SUCCESS_CODE);
+			response.setResponseMessage(CoreConstant.SUCCESS);
+			response.setResponseData(jsonArray.toList());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setResponseCode(CoreConstant.FAILURE_CODE);
+			response.setResponseMessage(CoreConstant.FAILED + e.getMessage());
+			return response;
+		}
+		return response;
+	}
+
+	public ResponseData updateContactUsMessageStatus(RequestData requestData) {
+	ResponseData response = new ResponseData();
+	try {
+		JSONObject resjson = new JSONObject();
+		String jsonString = ConvertRequestUtils.getJsonString(requestData);
+		JSONObject requestJson = new JSONObject(jsonString);
+		System.out.println("Request Body: " + requestJson.toString());
+		JSONObject jbody = requestJson.getJSONObject("jbody");
+		Long id = jbody.getLong("id");
+		String status = jbody.getString("status");
+		String remarks = jbody.getString("remarks");
+
+		com.pscs.moneyx.entity.ContactsUs contactUsMessage = contactsUsRepo.findById(id).orElse(null);
+		if (contactUsMessage == null) {
+			response.setResponseCode(CoreConstant.FAILURE_CODE);
+			response.setResponseMessage(CoreConstant.FAILED + " Contact Us message not found");
+			return response;
+		}
+
+		contactUsMessage.setStatus(status);
+		contactUsMessage.setRemarks(remarks);
+		contactsUsRepo.save(contactUsMessage);
+
+		response.setResponseCode(CoreConstant.SUCCESS_CODE);
+		response.setResponseMessage(CoreConstant.SUCCESS);
+		response.setResponseData(resjson.toMap());
+
+	} catch (Exception e) {
+		e.printStackTrace();
+		response.setResponseCode(CoreConstant.FAILURE_CODE);
+		response.setResponseMessage(CoreConstant.FAILED + e.getMessage());
+		return response;
+	}
 		return response;
 	}
 }

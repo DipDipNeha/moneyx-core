@@ -47,14 +47,27 @@ public class MoneyXCoreController {
 	}
 	
 	//contacts us API
-	@PostMapping("/contactsUs")
+	@PostMapping("/contactsus")
 	public ResponseData contactsUs(@RequestBody RequestData requestData) {
 		ResponseData response = new ResponseData();
 		response = moneyXCoreService.contactsUs(requestData);
 		return response;
 	}
 	
-	
+	// view contact us messages
+	@PostMapping("/viewcontactus")
+	public ResponseData viewContactUsMessages(@RequestBody RequestData requestData) {
+		ResponseData response = new ResponseData();
+		response = moneyXCoreService.viewContactUsMessages(requestData);
+		return response;
+	}
 
+	// update contact us message status
+	@PostMapping("/updatecontactusstatus")
+	public ResponseData updateContactUsMessageStatus(@RequestBody RequestData requestData) {
+		ResponseData response = new ResponseData();
+		response = moneyXCoreService.updateContactUsMessageStatus(requestData);
+		return response;
+	}
 	
 }

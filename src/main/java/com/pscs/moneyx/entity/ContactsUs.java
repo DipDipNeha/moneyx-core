@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Moneyx_core_ContactsUs")
+@Table(name = "moneyx_core_contacts_us")
 public class ContactsUs {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +23,16 @@ public class ContactsUs {
 	private String subject;
 	private String message;
 	private Date createdDttm;
+	private String phone;
+	private String status;
+	private String remarks;
+	
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -59,10 +69,23 @@ public class ContactsUs {
 	public void setCreatedDttm(Date createdDttm) {
 		this.createdDttm = createdDttm;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 	@Override
 	public String toString() {
 		return "ContactsUs [id=" + id + ", name=" + name + ", email=" + email + ", subject=" + subject + ", message="
-				+ message + ", createdDttm=" + createdDttm + "]";
+				+ message + ", createdDttm=" + createdDttm + ", phone=" + phone + ", status=" + status + ", remarks="
+				+ remarks + "]";
 	}
 	
 	
