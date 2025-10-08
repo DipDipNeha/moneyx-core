@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,7 +21,8 @@ public class CustomerDocInfo {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String documentType;
-	private Clob fileData;
+	@Lob
+	private String fileData;
 	private String filePath;
 	private String description;
 	private String blog;
@@ -40,10 +42,12 @@ public class CustomerDocInfo {
 	public void setDocumentType(String documentType) {
 		this.documentType = documentType;
 	}
-	public Clob getFileData() {
+	
+	
+	public String getFileData() {
 		return fileData;
 	}
-	public void setFileData(Clob fileData) {
+	public void setFileData(String fileData) {
 		this.fileData = fileData;
 	}
 	public String getFilePath() {

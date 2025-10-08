@@ -64,7 +64,7 @@ public class CustomerImageUploadController {
 		return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 	}
 	
-	@PostMapping("/viewImage")
+	@PostMapping("/viewblog")
 	public ResponseData viewImage(@RequestBody RequestData requestData) {
 		ResponseData response = new ResponseData();
 		response = moneyXCoreService.viewblogs(requestData);
