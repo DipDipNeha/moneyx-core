@@ -38,7 +38,7 @@ public class SecurityConfigs {
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 		.authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/api/auth/**","/api/moneyxcore/viewblog").permitAll() 
+	            .requestMatchers("/api/auth/**","/api/moneyxcore/viewblog","api/moneyxcore/contactsus").permitAll() 
 	            .anyRequest().authenticated())
 		.httpBasic();
 		httpSecurity.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
