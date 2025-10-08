@@ -107,7 +107,7 @@ public class MoneyXCoreService {
 			mobCustomerDocInfo.setBlogCategory(jbody.getString("blogCategory"));
 			mobCustomerDocInfo.setCreatedBy(jheader.getString("userid"));
 			mobCustomerDocInfo.setCreatedDttm(new java.util.Date());
-			mobCustomerDocInfo.setFileData(ConvertRequestUtils.stringToClob(jbody.getString("fileData")));
+			mobCustomerDocInfo.setFileData(jbody.getString("fileData"));
 			CustomerDocInfo saveresponse = customerDocInfoRepo.save(mobCustomerDocInfo);
 
 			if (saveresponse == null) {
@@ -152,7 +152,7 @@ public class MoneyXCoreService {
 			mobCustomerDocInfo.setUpdatedDttm(new java.util.Date());
 			if (jbody.has("fileData") && jbody.getString("fileData") != null
 					&& !jbody.getString("fileData").isEmpty()) {
-				mobCustomerDocInfo.setFileData(ConvertRequestUtils.stringToClob(jbody.getString("fileData")));
+				mobCustomerDocInfo.setFileData(jbody.getString("fileData"));
 			}
 
 			CustomerDocInfo saveresponse = customerDocInfoRepo.save(mobCustomerDocInfo);
