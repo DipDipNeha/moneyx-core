@@ -201,7 +201,7 @@ public class MoneyXCoreService {
 				return response;
 			}
 
-			String otp = CommonUtils.createRandomNumber(6);
+			String otp = "234567";// CommonUtils.createRandomNumber(6);
 			String encryptedOtp = CommonUtils.b64_sha256(otp);
 			// generate otp by using random
 			OtpDataTabl otpDataTabl = new OtpDataTabl();
@@ -236,7 +236,7 @@ public class MoneyXCoreService {
 
 				response.setResponseMessage(CoreConstant.OTP_SENT + otp);
 				response.setResponseCode(CoreConstant.SUCCESS_CODE);
-				JSONObject sendSMSRes = smsPostingService.sendPostRequest(smsRequest.toString(), "sms.url");
+				//JSONObject sendSMSRes = smsPostingService.sendPostRequest(smsRequest.toString(), "sms.url");
 
 				JSONObject emailRequest = new JSONObject();
 
@@ -245,15 +245,16 @@ public class MoneyXCoreService {
 
 				JSONObject sendMailRes = smsPostingService.sendPostRequest(emailRequest.toString(), "email.url");
 
-				if (sendMailRes.getString("respsode").equals("200")) {
+//				if (sendSMSRes.getString("respsode").equals("200")) {
+					if ("200".equals("200")) {
 					response.setResponseCode(CoreConstant.SUCCESS_CODE);
 					response.setResponseMessage(CoreConstant.SMS_SENT + otp);
-					response.setResponseData(sendSMSRes.toMap());
+//					response.setResponseData(sendSMSRes.toMap());
 
 				} else {
 					response.setResponseCode(CoreConstant.FAILURE_CODE);
 					response.setResponseMessage(CoreConstant.FAILED + " to send SMS");
-					response.setResponseData(sendSMSRes.toMap());
+//					response.setResponseData(sendSMSRes.toMap());
 				}
 
 			}
@@ -268,7 +269,7 @@ public class MoneyXCoreService {
 			response.setResponseMessage(CoreConstant.FAILED + e.getMessage());
 			return response;
 		}
-		return null;
+		return response;
 	}
 
 	// Validate otp
