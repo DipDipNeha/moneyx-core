@@ -19,8 +19,9 @@ import com.pscs.moneyx.service.MoneyXCoreService;
 /**
  * 
  */
+@CrossOrigin(origins = "*")
 @RestController
-@CrossOrigin
+
 @RequestMapping("/api/moneyxcore")
 public class CustomerImageUploadController {
 

@@ -4,7 +4,9 @@
 
 package com.pscs.moneyx.core.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pscs.moneyx.model.RequestData;
 import com.pscs.moneyx.model.ResponseData;
 import com.pscs.moneyx.service.MoneyXCoreService;
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/moneyxcore")
 public class MoneyXCoreController {

@@ -1,6 +1,5 @@
 package com.pscs.moneyx.entity;
 
-import java.sql.Clob;
 import java.util.Date;
 
 import org.hibernate.annotations.DynamicUpdate;

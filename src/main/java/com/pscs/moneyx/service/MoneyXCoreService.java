@@ -131,51 +131,63 @@ public class MoneyXCoreService {
 	}
 
 	// update image details
-	public ResponseData updateImage(RequestData requestData) {
-		ResponseData response = new ResponseData();
-		try {
-			JSONObject resjson = new JSONObject();
-			String jsonString = ConvertRequestUtils.getJsonString(requestData);
 
-			JSONObject requestJson = new JSONObject(jsonString);
+public ResponseData updateImage(RequestData requestData) {
+    ResponseData response = new ResponseData();
+    try {
+        JSONObject resjson = new JSONObject();
+        String jsonString = ConvertRequestUtils.getJsonString(requestData);
+        JSONObject requestJson = new JSONObject(jsonString);
 
-			System.out.println("Request Body: " + requestJson.toString());
-			JSONObject jbody = requestJson.getJSONObject("jbody");
-			JSONObject jheader = requestJson.getJSONObject("jheader");
-			Long id = jbody.getLong("id");
-			CustomerDocInfo mobCustomerDocInfo = customerDocInfoRepo.findById(id).orElse(null);
-			mobCustomerDocInfo.setDocumentType(jbody.getString("documentType"));
-			mobCustomerDocInfo.setDescription(jbody.getString("description"));
-			mobCustomerDocInfo.setBlog(jbody.getString("blog"));
-			mobCustomerDocInfo.setBlogCategory(jbody.getString("blogCategory"));
-			mobCustomerDocInfo.setCreatedBy(jheader.getString("userId"));
-			mobCustomerDocInfo.setUpdatedDttm(new java.util.Date());
-			if (jbody.has("fileData") && jbody.getString("fileData") != null
-					&& !jbody.getString("fileData").isEmpty()) {
-				mobCustomerDocInfo.setFileData(jbody.getString("fileData"));
-			}
+        System.out.println("Request Body: " + requestJson.toString());
+        JSONObject jbody = requestJson.getJSONObject("jbody");
+        JSONObject jheader = requestJson.getJSONObject("jheader");
+        Long id = jbody.getLong("id");
 
-			CustomerDocInfo saveresponse = customerDocInfoRepo.save(mobCustomerDocInfo);
+        // Validate entity existence
+        CustomerDocInfo mobCustomerDocInfo = customerDocInfoRepo.findById(id).orElse(null);
+        if (mobCustomerDocInfo == null) {
+            response.setResponseCode(CoreConstant.FAILURE_CODE);
+            response.setResponseMessage(CoreConstant.FAILED + " to fetch image details");
+            return response;
+            
+            
+        }
 
-			if (saveresponse == null) {
-				response.setResponseCode(CoreConstant.FAILURE_CODE);
-				response.setResponseMessage(CoreConstant.FAILED + " to update image details");
-				return response;
-			} else {
+        // Update fields
+        
+        mobCustomerDocInfo.setDocumentType(jbody.getString("documentType"));
+        mobCustomerDocInfo.setDescription(jbody.getString("description"));
+        mobCustomerDocInfo.setBlog(jbody.getString("blog"));
+        mobCustomerDocInfo.setBlogCategory(jbody.getString("blogCategory"));
+        mobCustomerDocInfo.setCreatedBy(jheader.getString("userid"));
+        mobCustomerDocInfo.setUpdatedDttm(new java.util.Date());
 
-				response.setResponseCode(CoreConstant.SUCCESS_CODE);
-				response.setResponseMessage(CoreConstant.SUCCESS);
-				response.setResponseData(resjson.toMap());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			response.setResponseCode(CoreConstant.FAILURE_CODE);
-			response.setResponseMessage(CoreConstant.FAILED + e.getMessage());
-			return response;
-		}
+        // Only update fileData if present and not empty
+        if (jbody.has("fileData") && jbody.getString("fileData") != null
+                && !jbody.getString("fileData").isEmpty()) {
+            mobCustomerDocInfo.setFileData(jbody.getString("fileData"));
+        }
 
-		return response;
-	}
+        CustomerDocInfo saveresponse = customerDocInfoRepo.saveAndFlush(mobCustomerDocInfo);
+
+        if (saveresponse == null) {
+            response.setResponseCode(CoreConstant.FAILURE_CODE);
+            response.setResponseMessage(CoreConstant.FAILED + " to update image details");
+            return response;
+        } else {
+            response.setResponseCode(CoreConstant.SUCCESS_CODE);
+            response.setResponseMessage(CoreConstant.SUCCESS);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        response.setResponseCode(CoreConstant.FAILURE_CODE);
+        response.setResponseMessage(CoreConstant.FAILED + e.getMessage());
+        return response;
+    }
+    return response;
+}
+
 
 	public ResponseData generateOtp(RequestData requestData) {
 		ResponseData response = new ResponseData();

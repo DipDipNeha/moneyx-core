@@ -3,9 +3,6 @@
  */
 package com.pscs.moneyx.core.controller;
 
-import java.util.Collections;
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pscs.moneyx.entity.Role;
 import com.pscs.moneyx.entity.UserEntity;
 import com.pscs.moneyx.helper.ConvertRequestUtils;
 import com.pscs.moneyx.model.RequestData;
@@ -32,7 +28,7 @@ import com.pscs.moneyx.security.JWTGenerator;
 /**
  * 
  */
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationController {

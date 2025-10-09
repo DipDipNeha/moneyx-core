@@ -31,6 +31,8 @@ public class SecurityConfigs {
 		
 		httpSecurity
 		.csrf(csrf->csrf.disable())
+		.cors() // enable dynamic CORS
+        .and()
 		.exceptionHandling()
 		.authenticationEntryPoint(authEntryPoint)
 		.and()
