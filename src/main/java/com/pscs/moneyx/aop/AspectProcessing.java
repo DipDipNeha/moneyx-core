@@ -3,7 +3,8 @@
  */
 package com.pscs.moneyx.aop;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
@@ -25,7 +26,7 @@ import com.pscs.moneyx.service.RequestLogService;
 @Component
 @Aspect
 public class AspectProcessing {
-	private static final Logger logger = Logger.getLogger(AspectProcessing.class);
+	private static final Logger logger = LoggerFactory.getLogger(AspectProcessing.class);
 
 	@Autowired
 	private RequestLogService requestLogService;

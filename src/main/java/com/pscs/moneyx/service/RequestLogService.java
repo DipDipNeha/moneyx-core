@@ -2,8 +2,9 @@ package com.pscs.moneyx.service;
 
 import java.util.Date;
 
-import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.pscs.moneyx.entity.RequestLog;
@@ -15,7 +16,7 @@ import com.pscs.moneyx.repo.RequestLogRepo;
 @Service
 public class RequestLogService {
 
-	 private static final Logger logger = Logger.getLogger(RequestLogService.class);
+	 private static final Logger logger = LoggerFactory.getLogger(RequestLogService.class);
 	private final RequestLogRepo requestLogRepo;
 
 	public RequestLogService(RequestLogRepo requestLogRepo) {

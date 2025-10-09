@@ -10,4 +10,5 @@ public class MoneyxCoreApplication {
 		SpringApplication.run(MoneyxCoreApplication.class, args);
 	}
 
+
 }

@@ -212,6 +212,11 @@ public ResponseData updateImage(RequestData requestData) {
 				response.setResponseMessage(CoreConstant.FAILED + " Email not registered");
 				return response;
 			}
+			
+			
+			//update old otp status to E
+			otpDataTablRepo.updateOtpStatusByUserId(userid, "E");
+			
 
 			String otp = "234567";// CommonUtils.createRandomNumber(6);
 			String encryptedOtp = CommonUtils.b64_sha256(otp);
@@ -299,7 +304,7 @@ public ResponseData updateImage(RequestData requestData) {
 			String username = requestJson.getString("email");
 			String mobileNumber = requestJson.getString("phoneNumber");
 
-			OtpDataTabl otpDataTabl = otpDataTablRepo.findByUserIdAndOtp(username, CommonUtils.b64_sha256(otp));
+			OtpDataTabl otpDataTabl = otpDataTablRepo.findByUserIdAndOtpAndOtpStatus(username, CommonUtils.b64_sha256(otp),"A");
 
 			// Check if the OTP is older than 2 minutes
 
